@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Http\Helpers\InfusionsoftHelper;
 use Illuminate\Http\Request;
+use App\User;
+use App\Module;
 use Response;
 
 class ApiController extends Controller
