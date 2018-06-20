@@ -47,7 +47,7 @@ class ApiController extends Controller
         if ($this->checkIfInputGiven($email) === false) {
             return Response::json([
                 "success" => false,
-                "message" => 'No input given.'
+                "message" => 'No valid input given.'
             ]);
         }
 
@@ -59,8 +59,15 @@ class ApiController extends Controller
             ]);
         }
 
+        $inDatabase = User::where('email',$email) -> first();
 
-        //
+        if (empty($inDatabase)) {
+            return Response::json([
+                "success" => false,
+                "message" => 'Email given not in database.'
+            ]);
+        }
+
         $contact = $this->checkIfExistsInInfusionsoft($email);
         //Check if email exists in infusionsoft
         if ($contact === false) {
@@ -79,12 +86,13 @@ class ApiController extends Controller
             $tagId = $this->getTagId($email, $contactProducts);
 
             $infusionsoft = new InfusionsoftHelper();
+
             $infusionsoft->addTag($contactId, $tagId);
+
             return Response::json([
                 "success" => true,
                 "message" => "Contact: " . $contactId . " Has had the tag: " . $tagId ." attached to their account."
             ]);
-
         }
 
     }
