@@ -34,4 +34,9 @@ class ApiController extends Controller
 
         return $user;
     }
+
+    public function moduleReminderAssigner()
+    {
+        //
+    }
 }
